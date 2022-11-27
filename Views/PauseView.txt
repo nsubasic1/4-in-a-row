@@ -1,0 +1,47 @@
+#include "mbed.h"
+#include "stm32f413h_discovery_ts.h"
+#include "stm32f413h_discovery_lcd.h"
+
+
+void onPausePressed(){
+    // pozadina i izbori za pritisak na dugme pause
+    BSP_LCD_SetTextColor(LCD_COLOR_DARKBLUE);
+    BSP_LCD_FillRect(0, 0, BSP_LCD_GetXSize(), BSP_LCD_GetYSize());
+     BSP_LCD_SetTextColor(LCD_COLOR_BLUE);
+    BSP_LCD_FillRect(0, 0, BSP_LCD_GetXSize(), 50);
+    BSP_LCD_SetBackColor(LCD_COLOR_BLUE);
+    BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
+    BSP_LCD_SetFont(&Font16);
+    BSP_LCD_DisplayStringAt(BSP_LCD_GetXSize()/2 - 55, 20,
+        (uint8_t *)"Game paused", LEFT_MODE);
+    BSP_LCD_SetTextColor(LCD_COLOR_BLUE);
+    BSP_LCD_FillRect(BSP_LCD_GetXSize()/2 - 55, 80, 115, 30);
+    BSP_LCD_FillRect(BSP_LCD_GetXSize()/2 - 55, 130, 115, 30);
+    BSP_LCD_FillRect(BSP_LCD_GetXSize()/2 - 55, 180, 115, 30);
+    BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
+    BSP_LCD_DrawRect(BSP_LCD_GetXSize()/2 - 55, 80, 115, 30);
+    BSP_LCD_DrawRect(BSP_LCD_GetXSize()/2 - 55, 130, 115, 30);
+    BSP_LCD_DrawRect(BSP_LCD_GetXSize()/2 - 55, 180, 115, 30);
+    BSP_LCD_SetBackColor(LCD_COLOR_BLUE);
+    BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
+    BSP_LCD_DisplayStringAt(BSP_LCD_GetXSize()/2 - 40 , 87,
+        (uint8_t *)"Continue", LEFT_MODE);
+    BSP_LCD_DisplayStringAt(BSP_LCD_GetXSize()/2 - 35 , 137,
+        (uint8_t *)"Restart", LEFT_MODE);
+    BSP_LCD_DisplayStringAt(BSP_LCD_GetXSize()/2 - 20 , 187,
+        (uint8_t *)"Home", LEFT_MODE);
+    
+    
+}
+
+
+// kod za prvobitni izgled ekrana
+int main() {
+    
+    onPausePressed();
+   
+    while (1) {
+       
+        wait(1);
+    }
+}

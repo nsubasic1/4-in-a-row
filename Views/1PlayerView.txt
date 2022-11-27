@@ -1,0 +1,124 @@
+#include "mbed.h"
+#include "stm32f413h_discovery_ts.h"
+#include "stm32f413h_discovery_lcd.h"
+
+
+void pointToPlayer(int player){
+    int pomX = BSP_LCD_GetXSize()/2;
+    int pomY = BSP_LCD_GetYSize();
+    BSP_LCD_SetTextColor(LCD_COLOR_BLUE);
+    if(player == 1){
+        // pokazujemo na player1 koji je lijevo
+        Point p[3]; // trougao sa 3 vrha
+	    p[0].X = pomX - 25; 
+	    p[1].X = pomX - 10; 
+	    p[2].X = pomX - 10;
+	    p[0].Y = pomY - 25;
+	    p[1].Y = pomY - 35;
+	    p[2].Y = pomY - 15;
+	    BSP_LCD_FillPolygon(p, 3);
+	    BSP_LCD_FillRect(pomX - 10, pomY - 29, 30, 7);
+    }
+    else{
+        // pokazujemo na player 2 koji je desno
+        Point p[3]; // trougao sa 3 vrha
+	    p[0].X = pomX + 25; 
+	    p[1].X = pomX + 10; 
+	    p[2].X = pomX + 10;
+	    p[0].Y = pomY - 25;
+	    p[1].Y = pomY - 35;
+	    p[2].Y = pomY - 15;
+	    BSP_LCD_FillPolygon(p, 3);
+	    BSP_LCD_FillRect(pomX - 20, pomY - 29, 30, 7);
+    }
+}
+
+
+
+void make2PlayerView(){
+    // pozadina i text TOUCH HERE gdje ce korisnik pritisnuti da ubaci zeton
+    BSP_LCD_SetTextColor(LCD_COLOR_DARKBLUE);
+    BSP_LCD_FillRect(0, 0, 	BSP_LCD_GetXSize(), BSP_LCD_GetYSize());
+    BSP_LCD_SetBackColor(LCD_COLOR_DARKBLUE);
+    BSP_LCD_SetTextColor(LCD_COLOR_YELLOW);
+    BSP_LCD_SetFont(&Font12);
+    BSP_LCD_DisplayStringAt(BSP_LCD_GetXSize()/2 - 62, BSP_LCD_GetYSize()/10,
+        (uint8_t *)"TOUCH ", LEFT_MODE);
+    BSP_LCD_SetTextColor(LCD_COLOR_RED);
+    BSP_LCD_DisplayStringAt(BSP_LCD_GetXSize()/2 - 22, BSP_LCD_GetYSize()/10,
+        (uint8_t *)"HERE ", LEFT_MODE);
+    BSP_LCD_SetTextColor(LCD_COLOR_YELLOW);
+    BSP_LCD_DisplayStringAt(BSP_LCD_GetXSize()/2 + 10, BSP_LCD_GetYSize()/10,
+        (uint8_t *)"TO ", LEFT_MODE);
+    BSP_LCD_SetTextColor(LCD_COLOR_RED);
+    BSP_LCD_DisplayStringAt(BSP_LCD_GetXSize()/2 + 30, BSP_LCD_GetYSize()/10,
+        (uint8_t *)"DROP", LEFT_MODE);
+    // kraj pisanja za drop
+    
+    // pocetak dugmeta pause
+    BSP_LCD_SetTextColor(LCD_COLOR_BLUE);
+    BSP_LCD_FillCircle(220, 20, 10);
+    BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
+    BSP_LCD_DrawCircle(220, 20, 10);
+    BSP_LCD_FillRect(215, 15, 5, 10);
+    BSP_LCD_FillRect(222, 15, 5, 10);
+    // kraj dugmeta
+    
+    // početak ploče za igranje
+    BSP_LCD_SetTextColor(LCD_COLOR_BLUE);
+    BSP_LCD_FillRect(20, 45, 195, 150);
+    BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
+    BSP_LCD_DrawRect(20, 45, 195, 150);
+    // početak crtanja slotova za zetone
+    for(int i = 0; i < 6; i++){
+        for(int j = 0; j < 7; j++){
+            BSP_LCD_SetTextColor(LCD_COLOR_DARKBLUE);
+            BSP_LCD_FillCircle (36 + 26.8 * j, 61 + 24*i, 8);
+            BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
+            BSP_LCD_DrawCircle (36 + 26.8 * j, 61 + 24*i, 8);
+        }
+    }
+    // kraj crtanja ploče
+    
+    // player1
+    BSP_LCD_SetTextColor(LCD_COLOR_YELLOW);
+    BSP_LCD_FillCircle(15, BSP_LCD_GetYSize() - 30, 5);
+    BSP_LCD_FillRect(15 - 3, BSP_LCD_GetYSize()  - 30, 7, 20);
+    BSP_LCD_FillRect(15 + 3, BSP_LCD_GetYSize()  - 26, 4, 10);
+    BSP_LCD_FillRect(15 - 6, BSP_LCD_GetYSize()  - 26, 4, 10);
+    BSP_LCD_SetTextColor(LCD_COLOR_WHITE);
+    BSP_LCD_SetBackColor(LCD_COLOR_DARKBLUE);
+    BSP_LCD_SetFont(&Font12);
+    BSP_LCD_DisplayStringAt(25, BSP_LCD_GetYSize() - 25,
+        (uint8_t *)"PLAYER 1", LEFT_MODE);
+    // kraj player1
+    
+    // player2 - racunar
+    BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
+    BSP_LCD_FillRect(214, BSP_LCD_GetYSize()  - 15, 15, 3);
+    BSP_LCD_SetTextColor(LCD_COLOR_RED);
+    BSP_LCD_FillRect(210, BSP_LCD_GetYSize()  - 33, 23, 18);
+    BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
+    BSP_LCD_FillRect(212, BSP_LCD_GetYSize()  - 31, 19, 14);
+    BSP_LCD_SetTextColor(LCD_COLOR_WHITE);
+    BSP_LCD_SetBackColor(LCD_COLOR_DARKBLUE);
+    BSP_LCD_SetFont(&Font12);
+    BSP_LCD_DisplayStringAt(185, BSP_LCD_GetYSize() - 25,
+        (uint8_t *)"BOT", LEFT_MODE);
+    // kraj player2
+    
+    // pocetak strelice koja obiljezava ko igra
+    pointToPlayer(2); // prima int kao parametar, 1 - PLAYER1 ili 2 - PLAYER2
+}
+
+
+// kod za prvobitni izgled ekrana
+int main() {
+    
+    make2PlayerView();
+   
+    while (1) {
+       
+        wait(1);
+    }
+}

@@ -1,0 +1,75 @@
+#include "mbed.h"
+#include "stm32f413h_discovery_ts.h"
+#include "stm32f413h_discovery_lcd.h"
+
+void makeHomeView(){
+    // pozadina, elipsa i text u njoj
+    BSP_LCD_SetTextColor(LCD_COLOR_DARKBLUE);
+    BSP_LCD_FillRect(0, 0, 	BSP_LCD_GetXSize(), BSP_LCD_GetYSize());
+    BSP_LCD_SetTextColor(LCD_COLOR_WHITE);
+    BSP_LCD_FillEllipse(BSP_LCD_GetXSize()/2, BSP_LCD_GetYSize()/8 + 5, 53, 23);
+    BSP_LCD_SetTextColor(LCD_COLOR_BLUE);
+    BSP_LCD_FillEllipse(BSP_LCD_GetXSize()/2, BSP_LCD_GetYSize()/8 + 5, 50, 20);
+    BSP_LCD_SetTextColor(LCD_COLOR_WHITE);
+    BSP_LCD_SetBackColor(LCD_COLOR_BLUE);
+    BSP_LCD_SetFont(&Font12);
+    BSP_LCD_DisplayStringAt(BSP_LCD_GetXSize()/2 - 33, BSP_LCD_GetYSize()/8,
+        (uint8_t *)"4 IN A ROW", LEFT_MODE);
+    // kraj pozadine, elipse i texta u njoj
+    
+    // prvi covjeculjak
+    BSP_LCD_SetTextColor(LCD_COLOR_YELLOW);
+    BSP_LCD_FillCircle(BSP_LCD_GetXSize()/5, BSP_LCD_GetYSize()/3 + 4, 5);
+    BSP_LCD_FillRect(BSP_LCD_GetXSize()/5 - 3, BSP_LCD_GetYSize()/3 + 4, 7, 20);
+    BSP_LCD_FillRect(BSP_LCD_GetXSize()/5 + 3, BSP_LCD_GetYSize()/3 + 8, 4, 10);
+    BSP_LCD_FillRect(BSP_LCD_GetXSize()/5 - 6, BSP_LCD_GetYSize()/3 + 8, 4, 10);
+    // odabir single player
+    BSP_LCD_SetTextColor(LCD_COLOR_BLUE);
+    BSP_LCD_FillRect(BSP_LCD_GetXSize()/5 - 3 + 40, BSP_LCD_GetYSize()/3, 90, 25);
+    BSP_LCD_SetTextColor(LCD_COLOR_WHITE);
+    BSP_LCD_DrawRect(BSP_LCD_GetXSize()/5 - 3 + 40, BSP_LCD_GetYSize()/3, 90, 25);
+    BSP_LCD_SetBackColor(LCD_COLOR_BLUE);
+    BSP_LCD_DisplayStringAt(BSP_LCD_GetXSize()/5 + 50, BSP_LCD_GetYSize()/3 + 7,
+        (uint8_t *)"1 PLAYER", LEFT_MODE);
+    // druga dva covjeculjka
+    BSP_LCD_SetTextColor(LCD_COLOR_YELLOW);
+    BSP_LCD_FillCircle(BSP_LCD_GetXSize()/5, BSP_LCD_GetYSize()/3 + 64, 5);
+    BSP_LCD_FillRect(BSP_LCD_GetXSize()/5 - 3, BSP_LCD_GetYSize()/3 + 64, 7, 20);
+    BSP_LCD_FillRect(BSP_LCD_GetXSize()/5 + 3, BSP_LCD_GetYSize()/3 + 68, 4, 10);
+    BSP_LCD_FillRect(BSP_LCD_GetXSize()/5 - 6, BSP_LCD_GetYSize()/3 + 68, 4, 10);
+    BSP_LCD_SetTextColor(LCD_COLOR_RED);
+    BSP_LCD_FillCircle(BSP_LCD_GetXSize()/5 + 7, BSP_LCD_GetYSize()/3 + 64, 5);
+    BSP_LCD_FillRect(BSP_LCD_GetXSize()/5 - 3 + 7, BSP_LCD_GetYSize()/3 + 64, 7, 20);
+    BSP_LCD_FillRect(BSP_LCD_GetXSize()/5 + 3 + 7, BSP_LCD_GetYSize()/3 + 68, 4, 10);
+    BSP_LCD_FillRect(BSP_LCD_GetXSize()/5 - 6 + 7, BSP_LCD_GetYSize()/3 + 68, 4, 10);
+    // odabir 2 players
+    BSP_LCD_SetTextColor(LCD_COLOR_BLUE);
+    BSP_LCD_FillRect(BSP_LCD_GetXSize()/5 - 3 + 40, BSP_LCD_GetYSize()/3 + 60, 90, 25);
+    BSP_LCD_SetTextColor(LCD_COLOR_WHITE);
+    BSP_LCD_DrawRect(BSP_LCD_GetXSize()/5 - 3 + 40, BSP_LCD_GetYSize()/3 + 60, 90, 25);
+    BSP_LCD_SetBackColor(LCD_COLOR_BLUE);
+    BSP_LCD_DisplayStringAt(BSP_LCD_GetXSize()/5 + 50, BSP_LCD_GetYSize()/3 + 67,
+        (uint8_t *)"2 PLAYERS", LEFT_MODE);
+    // kraj odabira 
+    
+    // potpis
+    BSP_LCD_SetBackColor(LCD_COLOR_DARKBLUE);
+    BSP_LCD_SetFont(&Font8);
+    BSP_LCD_DisplayStringAt(BSP_LCD_GetXSize()/8 , BSP_LCD_GetYSize() - 40,
+        (uint8_t *)"University of Electrical Engineering", LEFT_MODE);
+    BSP_LCD_DisplayStringAt(BSP_LCD_GetXSize()/8 + 10 , BSP_LCD_GetYSize() - 20,
+        (uint8_t *)"Embedded Systems 2020/2021 class", LEFT_MODE);
+}
+
+
+// kod za prvobitni izgled ekrana
+int main() {
+    
+    makeHomeView();
+   
+   
+    while (1) {
+       
+        wait(1);
+    }
+}
